@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(:version => 20120423081022) do
   add_index "admin_users", ["reset_password_token"], :name => "index_admin_users_on_reset_password_token", :unique => true
 
   create_table "feed_items", :force => true do |t|
+    t.string   "feed"
     t.string   "title"
     t.string   "url"
     t.text     "content"

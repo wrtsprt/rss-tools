@@ -9,7 +9,7 @@ class HsFixController < ApplicationController
     @feed_url  = 'http://www.heise.de/newsticker/heise-atom.xml'
 
     update_feed
-    @feed_items = FeedItem.latest.limit(@max_items)#.where(feed: )
+    @feed_items = FeedItem.latest.limit(@max_items).where(feed: @feed_url)
 
     respond_to do |format|
       format.html
@@ -45,11 +45,12 @@ class HsFixController < ApplicationController
       feed_item = FeedItem.find_by_url(entry.link.href)
       if feed_item.nil?
         feed_item = FeedItem.new(
-                      :title        => entry.title.content,
-                      :url          => entry.link.href,
-                      :published_at => entry.published.content,
-                      :created_at   => Time.now,
-                      :content      => heise_content(entry.link.href))
+                      feed:         source,
+                      title:        entry.title.content,
+                      url:          entry.link.href,
+                      published_at: entry.published.content,
+                      created_at:   Time.now,
+                      content:      heise_content(entry.link.href))
         feed_item.save
         new_items += 1
       end
