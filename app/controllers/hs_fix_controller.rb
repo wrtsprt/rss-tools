@@ -48,8 +48,8 @@ class HsFixController < ApplicationController
                       feed:         source,
                       title:        entry.title.content,
                       url:          entry.link.href,
-                      published_at: entry.published.content,
-                      created_at:   Time.now,
+                      published_at: entry.published.content.to_s,
+                      created_at:   Time.now.to_s,
                       content:      heise_content(entry.link.href))
         feed_item.save
         new_items += 1
