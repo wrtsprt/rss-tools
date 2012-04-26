@@ -1,15 +1,13 @@
-require 'open-uri'
-require 'rss/atom'
-require 'rss/maker'
-
 class HsFixController < ApplicationController
 
-  def index
-    @max_items = 30
-    @feed_url  = 'http://www.heise.de/newsticker/heise-atom.xml'
+  before_filter :set_feed_url
 
+  def index
+    @max_items = 50
+    start_time = Time.now
     update_feed
     @feed_items = FeedItem.latest.limit(@max_items).where(feed: @feed_url)
+    @cached_items_count = @feed_items.where('created_at < ?', start_time).count
 
     respond_to do |format|
       format.html
@@ -20,12 +18,10 @@ class HsFixController < ApplicationController
   private
 
   def update_feed
-    Rails.logger.debug "in update feed"
     start_time = Time.now
-    source = "http://www.heise.de/newsticker/heise-atom.xml"
     content = ""
     begin
-      open(source) do |s| content = s.read end
+      open(@feed_url) do |s| content = s.read end
     rescue Exception => e
       Rails.logger.debug "e: #{e.message}"
       return [500, "feed URL not found " + e.message]
@@ -41,11 +37,10 @@ class HsFixController < ApplicationController
 
     rss.entries.each do |entry|
       count += 1
-
       feed_item = FeedItem.find_by_url(entry.link.href)
       if feed_item.nil?
         feed_item = FeedItem.new(
-                      feed:         source,
+                      feed:         @feed_url,
                       title:        entry.title.content,
                       url:          entry.link.href,
                       published_at: entry.published.content.to_s,
@@ -63,7 +58,6 @@ class HsFixController < ApplicationController
     Rails.logger.debug "#{items_with_content} items with content"
   end
 
-  # Method specialised in getting content from a heise.de/newsticker news article.
   def heise_content(link)
     doc = Nokogiri::HTML(open(link))
     doc.css('.meldung_wrapper').collect do |content|
@@ -72,12 +66,11 @@ class HsFixController < ApplicationController
   end
 
   def render_rss_feed(items)
-    Rails.logger.debug "rendering rss feed"
     start_time = Time.now
     version = "2.0"
     content = RSS::Maker.make(version) do |m|
-      m.channel.link = "http://fff.heroku.com"
-      m.channel.description = "content enriched feed"
+      m.channel.link = "http://rss-tools.heroku.com/heise_newsfeed.rss"
+      m.channel.description = "heise.de+content"
       items.each do |item|
         i = m.items.new_item
         i.title   = item.title
@@ -85,10 +78,14 @@ class HsFixController < ApplicationController
         i.date    = item.published_at
         i.summary = item.content
       end
-      m.channel.title = "heise.de newsfeed (full)"
+      m.channel.title = "heise.de+content"
     end
     Rails.logger.debug "  in #{Time.now - start_time} seconds"
     content.to_s
+  end
+
+  def set_feed_url
+    @feed_url ||= 'http://www.heise.de/newsticker/heise-atom.xml'
   end
 
 end

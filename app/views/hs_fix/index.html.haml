@@ -1,10 +1,14 @@
-%h1 Items Index 
-%p
-  = "Showing the #{@max_items} latest entries of #{@feed_url}"
-%p
-  You probably want this in RSS:
-  = link_to 'RSS', '/hs_fix/index.rss'
-
-%ul
-  - @feed_items.each do |item|
-    %li= item.inspect
+.row
+  .span10.offset1
+    %h1 Latest Items
+.row
+  .span10.offset1
+    %p
+      You probably want this in
+      = link_to 'RSS', '/heise_newsfeed.rss'
+    %p
+      = "Showing the #{@max_items} latest entries of #{@feed_url}"
+    %p
+      = "#{@cached_items_count} items from cache"
+    %ul
+      = render(@feed_items) || 'No items found.'
