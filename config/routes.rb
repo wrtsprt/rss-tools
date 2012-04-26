@@ -4,7 +4,7 @@ RssTools::Application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
 
   root :to => 'hs_fix#index'
-  get 'hs_fix/index' => 'hs_fix#index'
+  get '/heise_newsfeed(.format)' => 'hs_fix#index'
 
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
