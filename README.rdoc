@@ -1,9 +1,13 @@
 == My RSS-Tools
 
-* enriching teaser feeds with content
+A personal RSS Toolkit.
+
+Features:
+* enriching teaser (abstract or headline only) feeds with content - currently hardcoded for two examples
 
 === TODO
 
+* generalize approach, user generated feed configurations
 * reduce frequency of feed (random pick items)
 * filter feeds items by keywords
 
