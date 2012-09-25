@@ -5,6 +5,8 @@ RssTools::Application.routes.draw do
 
   root :to => 'hs_fix#index'
   get '/heise_newsfeed(.format)' => 'hs_fix#index'
+  get '/de_morgen(.format)' => 'de_morgen_#index'
+
 
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'

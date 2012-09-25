@@ -49,3 +49,5 @@ gem 'activeadmin'
 gem 'formtastic', '~> 2.1.1'
 
 gem "nokogiri"
+gem 'feedzirra'
+
