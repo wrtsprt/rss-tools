@@ -19,17 +19,14 @@ class DeMorgenController < ApplicationController
 
   def update_feed
     start_time = Time.now
-    begin
-      feed = Feedzirra::Feed.fetch_and_parse(@feed_url)
-    rescue Exception => e
+    feed = Feedzirra::Feed.fetch_and_parse(@feed_url)
+    if feed.nil?
       Rails.logger.debug "e: #{e.message}"
       return [500, "feed URL not found " + e.message]
     end
-
+    
     feed_items = []
     new_items = 0
-    items_no_content = 0
-    items_with_content = 0
     count = 0
 
     feed.entries.each do |entry|
@@ -52,8 +49,6 @@ class DeMorgenController < ApplicationController
 
     Rails.logger.debug "#{count} items processed."
     Rails.logger.debug "#{new_items} new items."
-    Rails.logger.debug "#{items_no_content} items without content"
-    Rails.logger.debug "#{items_with_content} items with content"
   end
 
   def heise_content(link)

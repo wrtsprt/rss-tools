@@ -19,33 +19,28 @@ class HsFixController < ApplicationController
 
   def update_feed
     start_time = Time.now
-    content = ""
-    begin
-      open(@feed_url) do |s| content = s.read end
-    rescue Exception => e
+    feed = Feedzirra::Feed.fetch_and_parse(@feed_url)
+    if feed.nil?
       Rails.logger.debug "e: #{e.message}"
       return [500, "feed URL not found " + e.message]
     end
 
-    rss = RSS::Parser.parse(content, false)
     feed_items = []
-
     new_items = 0
-    items_no_content = 0
-    items_with_content = 0
     count = 0
 
-    rss.entries.each do |entry|
+    feed.entries.each do |entry|
       count += 1
-      feed_item = FeedItem.find_by_url(entry.link.href)
+      feed_item = FeedItem.find_by_url(entry.url)
+      Rails.logger.debug "=> processing #{entry.url}"  
       if feed_item.nil?
         feed_item = FeedItem.new(
                       feed:         @feed_url,
-                      title:        entry.title.content,
-                      url:          entry.link.href,
-                      published_at: entry.published.content.to_s,
+                      title:        entry.title,
+                      url:          entry.url,
+                      published_at: entry.published.to_s,
                       created_at:   Time.now.to_s,
-                      content:      heise_content(entry.link.href))
+                      content:      heise_content(entry.url))
         feed_item.save
         new_items += 1
       end
@@ -54,8 +49,6 @@ class HsFixController < ApplicationController
 
     Rails.logger.debug "#{count} items processed."
     Rails.logger.debug "#{new_items} new items."
-    Rails.logger.debug "#{items_no_content} items without content"
-    Rails.logger.debug "#{items_with_content} items with content"
   end
 
   def heise_content(link)
