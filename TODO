@@ -1,0 +1,4 @@
+TODO:
+
+- invalidate feed items on update of enhancer object (in case selectors, or replacers changed)
+- make variables possible for enhancer feeds (de morgen feed)
