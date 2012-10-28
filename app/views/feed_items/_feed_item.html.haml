@@ -1,1 +1,4 @@
-%li= link_to feed_item.title, feed_item.url
+%dt= link_to feed_item.title, feed_item.url
+%dd  
+  %p.content
+    %small= feed_item.content

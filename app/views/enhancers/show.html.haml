@@ -1,0 +1,31 @@
+= link_to 'Edit', edit_enhancer_path(@enhancer)
+\|
+= link_to 'Back', enhancers_path
+
+%p#notice= notice
+
+%dl.dl-horizontal
+  %dt
+    %b Title:
+  %dd= @enhancer.title
+  %dt
+    %b Description:
+  %dd= @enhancer.description
+  %dt
+    %b Original feed:
+  %dd= @enhancer.feed_url
+  %dt
+    %b Enhanced feed:
+  %dd=link_to 'RSS', request.fullpath + ".rss" 
+
+%p
+  %small
+    = "Showing the #{@max_items} latest entries."
+    = "#{@cached_items_count} items from cache."
+
+%dl
+  = render(@feed_items) || 'No items found.'
+
+= link_to 'Edit', edit_enhancer_path(@enhancer)
+\|
+= link_to 'Back', enhancers_path

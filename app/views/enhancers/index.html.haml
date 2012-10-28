@@ -1,0 +1,21 @@
+%h1 Listing enhancers
+
+%table
+  %tr
+    %th Title
+    %th Description
+    %th
+    %th
+    %th
+
+  - @enhancers.each do |enhancer|
+    %tr
+      %td= enhancer.title
+      %td= enhancer.description
+      %td= link_to 'Show', enhancer
+      %td= link_to 'Edit', edit_enhancer_path(enhancer)
+      %td= link_to 'Destroy', enhancer, :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Enhancer', new_enhancer_path
