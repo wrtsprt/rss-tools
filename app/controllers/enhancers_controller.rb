@@ -1,6 +1,6 @@
 class EnhancersController < InheritedResources::Base
 
-  before_filter :find_enhancer, :except => :index
+  before_filter :find_enhancer, :only => :show
 
   def show
     @feed_url = @enhancer.feed_url
