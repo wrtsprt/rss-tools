@@ -14,6 +14,8 @@ class EnhancersController < InheritedResources::Base
       format.html
       format.rss   { render text: render_rss_feed(@feed_items) }
     end
+
+    cleanup_feed_items
   end
 
   private
@@ -80,6 +82,17 @@ class EnhancersController < InheritedResources::Base
     end
     Rails.logger.debug "  in #{Time.now - start_time} seconds"
     content.to_s
+  end
+
+  def cleanup_feed_items
+    quoted_feed_url = ActiveRecord::Base.connection.quote(@feed_url)
+    sql = "SELECT id FROM feed_items
+    WHERE feed = #{quoted_feed_url}
+    ORDER BY created_at DESC
+    LIMIT #{@max_items}"
+
+    top_ids = ActiveRecord::Base.connection.select_rows(sql).flatten
+    FeedItem.where(feed: @feed_url).where('id NOT IN (?)', top_ids).delete_all
   end
 
 end

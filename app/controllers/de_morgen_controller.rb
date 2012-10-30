@@ -13,6 +13,8 @@ class DeMorgenController < ApplicationController
       format.html
       format.rss  { render text: render_rss_feed(@feed_items) }
     end
+
+    cleanup_feed_items
   end
 
   private
@@ -86,6 +88,17 @@ class DeMorgenController < ApplicationController
       end
     end
     @feed_url ||= "http://www.demorgen.be/#{category}/rss.xml"
+  end
+
+  def cleanup_feed_items
+    quoted_feed_url = ActiveRecord::Base.connection.quote(@feed_url)
+    sql = "SELECT id FROM feed_items
+    WHERE feed = #{quoted_feed_url}
+    ORDER BY created_at DESC
+    LIMIT 50"
+
+    top_ids = ActiveRecord::Base.connection.select_rows(sql).flatten
+    FeedItem.where(feed: @feed_url).where('id NOT IN (?)', top_ids).delete_all
   end
 
 end
