@@ -1,13 +1,13 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.0.0'
+gem 'rails', '4.2.4'
 gem 'pg'
 
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails'
-  gem 'coffee-rails'
+  #gem 'sass-rails'
+  #gem 'coffee-rails'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer'
@@ -15,21 +15,21 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-gem 'jquery-rails'
+#gem 'jquery-rails'
 
 gem 'heroku'
 
 # frontend
-gem "haml-rails"
-gem "twitter-bootstrap-rails"
-gem "simple_form"
+#gem "haml-rails"
+#gem "twitter-bootstrap-rails"
+#gem "simple_form"
+# gem 'formtastic'
 
 group :development do
   gem 'irbtools'
 end
 
-gem 'formtastic'
 
-gem "nokogiri"
-gem 'feedzirra'
+#gem "nokogiri"
+#gem 'feedzirra'
 
