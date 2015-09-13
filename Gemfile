@@ -6,8 +6,8 @@ gem 'pg'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  #gem 'sass-rails',   '~> 4.0.0'
-  #gem 'coffee-rails', '~> 4.0.0'
+  gem 'sass-rails'
+  gem 'coffee-rails'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer'
@@ -20,16 +20,16 @@ gem 'jquery-rails'
 gem 'heroku'
 
 # frontend
-#gem "haml-rails"
-# gem "twitter-bootstrap-rails"
-#gem "simple_form"
+gem "haml-rails"
+gem "twitter-bootstrap-rails"
+gem "simple_form"
 
 group :development do
   gem 'irbtools'
 end
 
-#gem 'formtastic', '~> 2.1.1'
+gem 'formtastic'
 
 gem "nokogiri"
-# gem 'feedzirra'
+gem 'feedzirra'
 
