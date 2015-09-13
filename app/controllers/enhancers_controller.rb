@@ -1,5 +1,4 @@
-class EnhancersController < InheritedResources::Base
-
+class EnhancersController < ApplicationController
   before_filter :find_enhancer, :only => :show
 
   def show

@@ -21,7 +21,7 @@ class HsFixController < ApplicationController
 
   def update_feed
     start_time = Time.now
-    feed = Feedzirra::Feed.fetch_and_parse(@feed_url)
+    feed = Feedjira::Feed.fetch_and_parse(@feed_url)
     if feed.nil?
       Rails.logger.debug "e: #{e.message}"
       return [500, "feed URL not found " + e.message]

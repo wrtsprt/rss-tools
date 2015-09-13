@@ -30,5 +30,5 @@ group :development do
 end
 
 gem "nokogiri"
-gem 'feedzirra'
+gem 'feedjira'
 

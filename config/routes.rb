@@ -1,10 +1,6 @@
 RssTools::Application.routes.draw do
   resources :enhancers
 
-  ActiveAdmin.routes(self)
-
-  devise_for :admin_users, ActiveAdmin::Devise.config
-
   root :to => 'hs_fix#index'
   get '/heise_newsfeed(.format)' => 'hs_fix#index'
   get '/de_morgen(.format)' => 'de_morgen_#index'
