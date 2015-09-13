@@ -136,7 +136,7 @@ GEM
       mini_portile (~> 0.6.0)
     ori (0.1.0)
     paint (0.8.4)
-    pg (0.13.2)
+    pg (0.18.3)
     rack (1.6.4)
     rack-test (0.6.3)
       rack (>= 1.0)
