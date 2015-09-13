@@ -31,26 +31,40 @@ class HsFixController < ApplicationController
     new_items = 0
     count = 0
 
+    hydra = Typhoeus::Hydra.new
     feed.entries.each do |entry|
       count += 1
       feed_item = FeedItem.find_by_url(entry.url)
       Rails.logger.debug "=> processing #{entry.url}"  
       if feed_item.nil?
-        feed_item = FeedItem.new(
-                      feed:         @feed_url,
-                      title:        entry.title,
-                      url:          entry.url,
-                      published_at: entry.published.to_s,
-                      created_at:   Time.now.to_s,
-                      content:      heise_content(entry.url))
-        feed_item.save
-        new_items += 1
+        request = Typhoeus::Request.new(entry.url, followlocation: true)
+        request.on_complete do |response|
+          feed_item = FeedItem.new(
+              feed:         @feed_url,
+              title:        entry.title,
+              url:          entry.url,
+              published_at: entry.published.to_s,
+              created_at:   Time.now.to_s,
+              content:      heise_content_html(response.response_body))
+          feed_item.save
+          new_items += 1
+        end
+        hydra.queue(request)
       end
       feed_items << feed_item
     end
 
+    hydra.run
+
     Rails.logger.debug "#{count} items processed."
     Rails.logger.debug "#{new_items} new items."
+  end
+
+  def heise_content_html(html_string)
+    doc = Nokogiri::HTML(html_string)
+    doc.css('.meldung_wrapper').collect do |content|
+      content.to_xhtml
+    end.join.gsub('href="/', 'href="http://www.heise.de/')
   end
 
   def heise_content(link)

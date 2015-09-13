@@ -34,4 +34,5 @@ end
 
 gem "nokogiri"
 gem 'feedjira'
+gem 'typhoeus'
 
