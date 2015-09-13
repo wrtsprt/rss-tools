@@ -57,7 +57,7 @@ class HsFixController < ApplicationController
     doc = Nokogiri::HTML(open(link))
     doc.css('.meldung_wrapper').collect do |content|
       content.to_xhtml
-    end.join.gsub('href="/', 'href="http://www.heise.de/').gsub('<img src="/', '<img src="http://www.heise.de/')
+    end.join.gsub('href="/', 'href="http://www.heise.de/')
   end
 
   def render_rss_feed(items)
