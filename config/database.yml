@@ -1,9 +1,7 @@
 development:
-  encoding: utf8
-  collation: utf8_general_ci
-  adapter: mysql2
+  adapter: postgresql
   database: rsstools-dev
-  username: root
+  username: postgres
   host: localhost
   socket: /tmp/mysql.sock
 
@@ -12,7 +10,7 @@ development:
 # Do not set this db to the same as development or production.
 test: &test
   database: rsstools-test
-  username: root
-  adapter: mysql2
+  username: postgres
+  adapter: postgresql
   encoding: utf8
   socket: /tmp/mysql.sock
