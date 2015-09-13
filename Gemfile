@@ -18,6 +18,7 @@ end
 gem 'jquery-rails'
 
 gem 'heroku'
+gem 'rails_12factor', group: :production
 
 # frontend
 gem "haml-rails"
