@@ -1,6 +1,6 @@
 TODO:
 
-- does deletion by created_at make sense if several enhancers write to feed_items
+- cleanup leftover activeadmin db tables
 - unifier for multiple rss feeds
 - invalidate feed items on update of enhancer object (in case selectors, or replacers changed)
 - make variables possible for enhancer feeds (de morgen feed)
