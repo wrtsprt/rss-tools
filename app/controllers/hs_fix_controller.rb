@@ -21,7 +21,8 @@ class HsFixController < ApplicationController
 
   def update_feed
     start_time = Time.now
-    feed = Feedjira::Feed.fetch_and_parse(@feed_url)
+    feed_xml = Typhoeus.get(@feed_url, followlocation: true).response_body
+    feed = Feedjira::Feed.parse feed_xml
     if feed.nil?
       Rails.logger.debug "e: #{e.message}"
       return [500, "feed URL not found " + e.message]
