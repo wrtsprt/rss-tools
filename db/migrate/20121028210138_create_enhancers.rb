@@ -1,4 +1,4 @@
-class CreateEnhancers < ActiveRecord::Migration
+class CreateEnhancers < ActiveRecord::Migration[4.2]
   def change
     create_table :enhancers do |t|
       t.string  :title
