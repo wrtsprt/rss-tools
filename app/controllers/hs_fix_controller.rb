@@ -63,14 +63,7 @@ class HsFixController < ApplicationController
 
   def heise_content_html(html_string)
     doc = Nokogiri::HTML(html_string)
-    doc.css('.meldung_wrapper').collect do |content|
-      content.to_xhtml
-    end.join.gsub('href="/', 'href="http://www.heise.de/')
-  end
-
-  def heise_content(link)
-    doc = Nokogiri::HTML(open(link))
-    doc.css('.meldung_wrapper').collect do |content|
+    doc.css('.article-content').collect do |content|
       content.to_xhtml
     end.join.gsub('href="/', 'href="http://www.heise.de/')
   end
