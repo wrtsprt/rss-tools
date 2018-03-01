@@ -1,6 +1,6 @@
 class HsFixController < ApplicationController
 
-  before_filter :set_feed_url
+  before_action :set_feed_url
 
   def index
     @max_items = 50
@@ -11,7 +11,7 @@ class HsFixController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.rss  { render text: render_rss_feed(@feed_items) }
+      format.rss  { render plain: render_rss_feed(@feed_items) }
     end
 
     cleanup_feed_items
@@ -63,14 +63,7 @@ class HsFixController < ApplicationController
 
   def heise_content_html(html_string)
     doc = Nokogiri::HTML(html_string)
-    doc.css('.meldung_wrapper').collect do |content|
-      content.to_xhtml
-    end.join.gsub('href="/', 'href="http://www.heise.de/')
-  end
-
-  def heise_content(link)
-    doc = Nokogiri::HTML(open(link))
-    doc.css('.meldung_wrapper').collect do |content|
+    doc.css('.article-content').collect do |content|
       content.to_xhtml
     end.join.gsub('href="/', 'href="http://www.heise.de/')
   end

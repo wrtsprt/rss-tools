@@ -1,5 +1,5 @@
 class EnhancersController < ApplicationController
-  before_filter :find_enhancer, :only => :show
+  before_action :find_enhancer, :only => :show
 
   def show
     @feed_url = @enhancer.feed_url
@@ -11,7 +11,7 @@ class EnhancersController < ApplicationController
     
     respond_to do |format|
       format.html
-      format.rss   { render text: render_rss_feed(@feed_items) }
+      format.rss   { render plain: render_rss_feed(@feed_items) }
     end
 
     cleanup_feed_items

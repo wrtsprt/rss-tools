@@ -1,6 +1,6 @@
 class DeMorgenController < ApplicationController
 
-  before_filter :set_feed_url
+  before_action :set_feed_url
 
   def index
     @max_items = 50
@@ -11,7 +11,7 @@ class DeMorgenController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.rss  { render text: render_rss_feed(@feed_items) }
+      format.rss  { render plain: render_rss_feed(@feed_items) }
     end
 
     cleanup_feed_items

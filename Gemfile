@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-ruby '2.1.5'
+ruby '2.4.2'
 
-gem 'rails', '4.2.4'
+gem 'rails', '~> 5.1.0'
 gem 'pg'
 
 # Gems used only for assets and not required
@@ -19,12 +19,8 @@ end
 
 gem 'jquery-rails'
 
-gem 'heroku'
-gem 'rails_12factor', group: :production
-
 # frontend
 gem "haml-rails"
-gem "twitter-bootstrap-rails"
 gem "simple_form"
  gem 'formtastic'
 
